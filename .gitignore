@@ -1,0 +1,7 @@
+# for third party deps
+vendor
+
+# for tmp data during testing
+tmp
+
+__pycache__
