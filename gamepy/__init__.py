@@ -1,1 +1,1 @@
-from . import game
+from . import normal_form
