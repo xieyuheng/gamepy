@@ -1,1 +1,1 @@
-x = 123
+import .game

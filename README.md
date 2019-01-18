@@ -1,7 +1,7 @@
-# gt -- game theory
+# gamepy -- game theory in python
 
 Aims:
-- game theory
+- game theory experiments
 
 ## Contributing
 
