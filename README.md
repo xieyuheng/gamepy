@@ -3,6 +3,12 @@
 Aims:
 - game theory experiments
 
+## Usage
+
+``` sh
+pip install gamepy
+```
+
 ## Contributing
 
 We enforce C4 as collaboration protocol :
