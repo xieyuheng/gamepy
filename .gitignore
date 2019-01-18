@@ -1,3 +1,6 @@
+# for python
+dist
+
 # for third party deps
 vendor
 
