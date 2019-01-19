@@ -3,10 +3,10 @@ import pandas as pd
 
 # player: str
 # action: str
-# pure_plan: (player, action)
-# pure_plans: pd.Series
-# opponent_pure_plans: pd.Series -- length == self.players.size - 1
-# pure_plan_profile: pd.Series -- length == self.players.size
+# pure_strategy_item: (player, action)
+# pure_strategy: pd.Series
+# opponent_pure_strategy: pd.Series -- length == self.players.size - 1
+# pure_strategy_profile: pd.Series -- length == self.players.size
 
 class c:
     def __init__ (self, players, payoff_tensor):
@@ -19,44 +19,44 @@ class c:
         assert payoff_tensor.shape == self.payoff_tensor_shape
         self.payoff_tensor = payoff_tensor
 
-    def pure_plans_c (self, pure_plans, name = "pure_plans"):
+    def pure_strategy_c (self, pure_strategy, name = "pure_strategy"):
         return pd.Series (
-            pure_plans,
+            pure_strategy,
             name = name,
             index = self.players.index)
 
-    def pure_plan_to_index (self, pure_plan):
-        player, action = pure_plan
+    def pure_strategy_item_to_index (self, pure_strategy):
+        player, action = pure_strategy
         if pd.isna (action):
             return slice (None)
         else:
             return self.players [player] .index (action)
 
-    def pure_plans_to_index_list (self, pure_plans):
+    def pure_strategy_to_index_list (self, pure_strategy):
         return list (map (
-            lambda pure_plan: self.pure_plan_to_index (pure_plan),
-            pure_plans.items ()))
+            lambda pure_strategy: self.pure_strategy_item_to_index (pure_strategy),
+            pure_strategy.items ()))
 
-    def payoff_array (self, pure_plan_profile):
-        pure_plan_profile = self.pure_plans_c (pure_plan_profile)
-        assert pure_plan_profile.size == self.players.size
-        index_list = self.pure_plans_to_index_list (pure_plan_profile)
+    def pure_payoff_array (self, pure_strategy_profile):
+        pure_strategy_profile = self.pure_strategy_c (pure_strategy_profile)
+        assert pure_strategy_profile.size == self.players.size
+        index_list = self.pure_strategy_to_index_list (pure_strategy_profile)
         return self.payoff_tensor [tuple (index_list)]
 
-    def payoff_series (self, pure_plan_profile):
+    def pure_payoff_series (self, pure_strategy_profile):
         return pd.Series (
-            self.payoff_array (pure_plan_profile),
+            self.pure_payoff_array (pure_strategy_profile),
             name = "payoffs",
             index = self.players.index)
 
-    def responses (self, opponent_pure_plans):
-        opponent_pure_plans = self.pure_plans_c (opponent_pure_plans)
-        miss = opponent_pure_plans [ opponent_pure_plans.isna () ]
+    def pure_responses (self, opponent_pure_strategy):
+        opponent_pure_strategy = self.pure_strategy_c (opponent_pure_strategy)
+        miss = opponent_pure_strategy [ opponent_pure_strategy.isna () ]
         player_list = miss.keys ()
         assert len (player_list) == 1
         player = player_list [0]
         action_list = self.players [player]
-        index_list = self.pure_plans_to_index_list (opponent_pure_plans)
+        index_list = self.pure_strategy_to_index_list (opponent_pure_strategy)
         multi_index = pd.MultiIndex.from_arrays (
             [action_list],
             names = [player])
@@ -65,37 +65,18 @@ class c:
             index = multi_index,
             columns = self.players.keys ())
 
-    # [todo]
-    # - design the interface for both pure_pure_plan and mixed_pure_plan
+    def best_pure_responses (self, opponent_pure_strategy):
+        pure_responses = self.pure_responses (opponent_pure_strategy)
+        player = pure_responses.index.names [0]
+        grouped_responses = pure_responses.groupby (player)
+        _value, df = list (grouped_responses) [-1]
+        return df
 
-    '''
-    - we might can not generalize the implement of normal_form
-      to an abstract type of which
-      pure and mixed version of the game are its subtype
-      because two sets of interface might both be used
-    '''
-
-    '''
-    - but we might want to generalize the implement
-      because extensive-form game might be included
-    '''
-
-    # [todo]
-    # best_responses instead of best_response
-
-    def best_response (self, opponent_pure_plans):
-        responses = self.responses (opponent_pure_plans)
-        player = responses.index.names [0]
-        return responses.sort_values (
-            by = player,
-            axis = 0,
-            ascending = False) .head (1)
-
-    # def nash_equilibrium (self):
+    # def pure_nash_equilibrium (self):
     #     return
 
-    # def dominant (self, pure_plan1, pure_plan2):
+    # def pure_dominant (self, pure_strategy1, pure_strategy2):
     #     return
 
-    # def dominant_pure_plan (self):
+    # def dominant_pure_strategy (self):
     #     return
