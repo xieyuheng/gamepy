@@ -25,8 +25,8 @@ class normal_form_c:
             name = name,
             index = self.players.index)
 
-    def pure_strategy_item_to_index (self, pure_strategy):
-        player, action = pure_strategy
+    def pure_strategy_item_to_index (self, pure_strategy_item):
+        player, action = pure_strategy_item
         if pd.isna (action):
             return slice (None)
         else:
@@ -34,7 +34,7 @@ class normal_form_c:
 
     def pure_strategy_to_index_list (self, pure_strategy):
         return list (map (
-            lambda pure_strategy: self.pure_strategy_item_to_index (pure_strategy),
+            self.pure_strategy_item_to_index,
             pure_strategy.items ()))
 
     def pure_payoff_array (self, pure_strategy_profile):
