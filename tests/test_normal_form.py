@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from gamepy import normal_form
+import gamepy as gm
 
 def prisoner_s_dilemma ():
     action_list = [
@@ -19,7 +19,7 @@ def prisoner_s_dilemma ():
         [[-0, -3], [-2, -2]],
     ])
 
-    return normal_form.c (players, payoff_tensor)
+    return gm.normal_form_c (players, payoff_tensor)
 
 def test_pure_payoff_array ():
     game = prisoner_s_dilemma ()

@@ -1,2 +1,2 @@
-from . import normal_form
-from . import extensive_form
+from .normal_form import normal_form_c
+# from .extensive_form import extensive_form_c

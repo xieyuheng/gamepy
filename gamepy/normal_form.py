@@ -8,7 +8,7 @@ import pandas as pd
 # opponent_pure_strategy: pd.Series -- length == self.players.size - 1
 # pure_strategy_profile: pd.Series -- length == self.players.size
 
-class c:
+class normal_form_c:
     def __init__ (self, players, payoff_tensor):
         self.players = pd.Series (players, name = "players")
         self.player_shape = tuple (map (len, self.players.values))
