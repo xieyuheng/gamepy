@@ -82,7 +82,6 @@ def test_pure_responses ():
         np.array ([
             [-1, -1], [-3, -0],
         ]))
-    print (pure_responses)
 
     pure_responses = game.pure_responses ({
         "Bob": "betray",
@@ -93,7 +92,6 @@ def test_pure_responses ():
             [-3, -0],
             [-2, -2],
         ]))
-    print (pure_responses)
 
 def test_best_pure_responses ():
     game = prisoner_s_dilemma ()
