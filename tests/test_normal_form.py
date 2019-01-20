@@ -24,52 +24,33 @@ def prisoner_s_dilemma ():
 def test_pure_payoff_array ():
     game = prisoner_s_dilemma ()
 
-    # strategy_profile: pd.Series like
-
     np.testing.assert_array_equal (
-        game.pure_payoff_array ({
+        game.proj ({
             "Alice": "silent",
             "Bob": "silent",
-        }),
+        }) .tensor (),
         np.array ([-1, -1]))
 
     np.testing.assert_array_equal (
-        game.pure_payoff_array ({
+        game.proj ({
             "Alice": "silent",
             "Bob": "betray",
-        }),
+        }) .tensor (),
         np.array ([-3, -0]))
 
     np.testing.assert_array_equal (
-        game.pure_payoff_array ({
+        game.proj ({
             "Alice": "betray",
             "Bob": "silent",
-        }),
+        }) .tensor (),
         np.array ([-0, -3]))
 
     np.testing.assert_array_equal (
-        game.pure_payoff_array ({
+        game.proj ({
             "Alice": "betray",
             "Bob": "betray",
-        }),
+        }) .tensor (),
         np.array ([-2, -2]))
-
-def test_pure_payoff_series ():
-    game = prisoner_s_dilemma ()
-
-    pure_payoff_series = game.pure_payoff_series ({
-        "Alice": "silent",
-        "Bob": "betray",
-    })
-    assert pure_payoff_series ["Alice"] == -3
-
-    # the order of dict does not matter
-
-    pure_payoff_series = game.pure_payoff_series ({
-        "Bob": "betray",
-        "Alice": "silent",
-    })
-    assert pure_payoff_series ["Alice"] == -3
 
 def test_pure_responses ():
     game = prisoner_s_dilemma ()
