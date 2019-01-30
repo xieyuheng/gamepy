@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from orthotope import orthotope_c
+from .orthotope import orthotope_c
 
 class normal_form_c:
     def __init__ (self, players, payoff_tensor):

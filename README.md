@@ -3,6 +3,9 @@
 Aims:
 - game theory experiments
 
+Contains :
+- orthotope -- tensor with named axes and indexes
+
 ## Usage
 
 ``` sh
