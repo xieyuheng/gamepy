@@ -15,7 +15,7 @@ def prisoner_s_dilemma ():
         [[-0, -3], [-2, -2]],
     ])
 
-    return gm.ot.orthotope_c (prisoner_s_axes, tensor)
+    return gm.orthotope_c (prisoner_s_axes, tensor)
 
 def test_zeros ():
     np.testing.assert_array_equal (
