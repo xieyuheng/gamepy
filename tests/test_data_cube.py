@@ -3,39 +3,41 @@ import pandas as pd
 
 import gamepy as gm
 
-def test_data_cube_c():
-    dic = {
-        "A": [1, 2, 3],
-        "B": [4, 5, 6]
-    }
+abc_dic = {
+    "A": [1, 2, 3],
+    "B": [4, 5, 6],
+    "C": [7, 8, 9],
+    "I": [0, 1, 2],
+    "J": [2, 1, 0],
+    "X": [0, 0, 0], # this column will be ignored
+}
 
-    df = pd.DataFrame (dic, index = [6, 6, 6])
-    cube = gm.data_cube_c (df, ["A"], ["B"])
+abc_df = pd.DataFrame (
+    abc_dic,
+    index = [100, 200, 300])
 
-    assert cube.attr_name_list == ["A"]
-    assert cube.indi_name_list == ["B"]
+abc_cube = gm.data_cube_c (
+    # "D" and "K" will be ignored
+    abc_df, ["A", "B", "C", "D"], ["I", "J", "K"])
+
+def test_abc_cube ():
+    assert abc_cube.attr_name_list == ["A", "B", "C"]
+    assert abc_cube.indi_name_list == ["I", "J"]
     pd.testing.assert_index_equal (
-        cube.index,
-        pd.Index ([6, 6, 6]))
+        abc_cube.df.index,
+        pd.Index ([100, 200, 300]))
 
-    cube = gm.data_cube_c (
-        dic,
-        attr_name_list = ["A"],
-        indi_name_list = ["B"],
-        index = [6, 6, 6])
+def test_proj ():
+    cube = abc_cube.proj ({
+        "A": 1,
+        "B": 4,
+    })
+    assert type (cube) == gm.data_cube_c
 
-    assert cube.attr_name_list == ["A"]
-    assert cube.indi_name_list == ["B"]
-    pd.testing.assert_index_equal (
-        cube.index,
-        pd.Index ([6, 6, 6]))
-
-    cube = gm.data_cube_c (
-        dic, ["A"], ["B"],
-        index = [6, 6, 6])
-
-    assert cube.attr_name_list == ["A"]
-    assert cube.indi_name_list == ["B"]
-    pd.testing.assert_index_equal (
-        cube.index,
-        pd.Index ([6, 6, 6]))
+def test_proj ():
+    cube = abc_cube.proj_drop ({
+        "A": 1,
+        "B": 4,
+    })
+    assert cube.attr_name_list == ["C"]
+    assert type (cube) == gm.data_cube_c

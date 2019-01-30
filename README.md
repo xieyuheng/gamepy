@@ -6,7 +6,6 @@ Aims:
 Contains :
 - orthotope -- tensor with named axes and indexes
 - data_cube -- `pd.DataFrame` as sparse tensor
-  - by subclassing `pd.DataFrame`
   - with `attr_name_list` and `indi_name_list`
 - mcts -- general Monte Carlo tree search
 
