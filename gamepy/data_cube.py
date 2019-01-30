@@ -52,6 +52,7 @@ class data_cube_c:
             index_name = df.index.name
         else:
             index_name = None
+
         df.index = df.index.set_names (["_index"])
         df = df.reset_index ()
         df = df.groupby (
