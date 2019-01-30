@@ -4,17 +4,17 @@ import pandas as pd
 import gamepy as gm
 
 abc_dic = {
-    "A": [1, 0, 2, 8, 3],
-    "B": [4, 4, 5, 5, 6],
-    "C": [7, 7, 8, 8, 9],
-    "I": [0, 1, 1, 1, 2],
-    "J": [2, 3, 1, 1, 0],
-    "X": [0, 0, 0, 0, 0], # this column will be ignored
+    "A": [1, 0, 2, 8, 3, 3],
+    "B": [4, 4, 5, 5, 4, 6],
+    "C": [7, 7, 8, 8, 2, 9],
+    "I": [0, 1, 1, 1, 3, 2],
+    "J": [2, 3, 1, 1, 6, 0],
+    "X": [0, 0, 0, 0, 0, 0], # this column will be ignored
 }
 
 abc_df = pd.DataFrame (
     abc_dic,
-    index = [1000, 1000, 2000, 2000, 3000])
+    index = [1000, 1000, 2000, 2000, 2000, 3000])
 
 abc_cube = gm.data_cube_c (
     # "D" and "K" will be ignored
@@ -57,5 +57,14 @@ def test_retract ():
     print ("cube = {}" .format (cube))
     print ("</test_retract>")
     assert cube.attr_name_list == ["B", "C"]
+    assert cube.indi_name_list == ["I", "J"]
+    assert type (cube) == gm.data_cube_c
+
+def test_retract_all ():
+    cube = abc_cube.retract_all ()
+    print ("<test_retract_all>")
+    print ("cube = {}" .format (cube))
+    print ("</test_retract_all>")
+    assert cube.attr_name_list == []
     assert cube.indi_name_list == ["I", "J"]
     assert type (cube) == gm.data_cube_c

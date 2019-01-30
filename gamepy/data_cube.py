@@ -65,3 +65,6 @@ class data_cube_c:
             df,
             self.attr_name_list,
             self.indi_name_list)
+
+    def retract_all (self):
+        return self.retract (self.attr_name_list)
